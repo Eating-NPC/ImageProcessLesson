@@ -204,6 +204,33 @@ Mat OTSU(Mat& grayImage)
 	return fixedThreshold(grayImage, threshold);
 }
 
+Mat Kittle(Mat& grayimg)
+{
+	Mat dst1;
+	int cou_1, cou_2, sum_0 = 0, sum_1 = 0;
+	dst1.create(grayimg.rows - 2, grayimg.cols - 2, CV_8UC1);
+	for (int i = 1; i < grayimg.rows - 1; i++)
+	{
+		for (int j = 1; j < grayimg.cols - 1; j++)
+		{
+			cou_1 = abs(grayimg.at<uchar>(i + 1, j) - grayimg.at<uchar>(i - 1, j));
+			cou_2 = abs(abs(grayimg.at<uchar>(i, j + 1) - grayimg.at<uchar>(i, j - 1)));
+			cou = cou_1 > cou_2 ? cou_1 : cou_2;
+			dst1.at<uchar>(i - 1, j - 1) = cou;
+			sum_0 += cou;
+		}
+	}
+
+	for (int i = 1; i < grayimg.rows - 1; i++)
+	{
+		for (int j = 1; j < grayimg.cols - 1; j++)
+		{
+			sum_1 += dst1.at<uchar>(i - 1, j - 1) * grayimg.at<uchar>(i, j) / sum_0;
+		}
+	}
+	return fixedThreshold(grayImage, sum_1);
+}
+
 void singleGauss()
 {
 	double alpha = 0.05;    //±³¾°½¨Ä£alphaÖµ

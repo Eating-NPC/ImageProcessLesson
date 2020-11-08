@@ -12,4 +12,5 @@ double generateGaussianNoise(double mu, double sigma);
 Mat addSalt(int n);
 Mat fixedThreshold(Mat& grayImage, int threshold);
 Mat OTSU(Mat& grayImage);
+Mat Kittle(Mat& grayimg);
 void singleGauss();
